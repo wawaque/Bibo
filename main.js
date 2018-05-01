@@ -1,3 +1,5 @@
+import { DESTRUCTION } from 'dns';
+
 const Discord = require('discord.js');
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
@@ -29,6 +31,8 @@ bot.on("message", message => {
 
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
+
+    if(message.author.bot) return;
 
     if (command ==='help'){
         var help_embed = new Discord.RichEmbed()
@@ -67,23 +71,23 @@ bot.on("message", message => {
         }
         if (randnum ==5) { // Si le numéro est 5
             message.reply("5 ! Tu y est presque ! Courage ! :game_die:") // L'utilisateur perd
-            console.log(randnum) //
+            console.log(randnum) 
         }
         if (randnum ==4) {  // Si le numéro est 4
             message.reply("4 ! Pas mal ! Tu peux mieux faire ! :game_die:") // L'utilisateur perd
-            console.log(randnum) //
+            console.log(randnum) 
         }
         if (randnum ==3) {  // Si le numéro est 3
             message.reply("3 ! La moitié de 6, à moitié Gagné ! :game_die:") // L'utilisateur perd
-            console.log(randnum) //
+            console.log(randnum) 
         }
         if (randnum ==2) {  // Si le numéro est 2
             message.reply("2 ! Pff ! Pas terrible ! :game_die:") // L'utilisateur perd
-            console.log(randnum) //
+            console.log(randnum) 
         }
         if (randnum ==1) {  // Si le numéro est 1
             message.reply("1 ! C'est pas ton jour de chance toi ! :game_die:") // L'utilisateur perd
-            console.log(randnum) //
+            console.log(randnum) 
         }
     }
 
@@ -98,13 +102,14 @@ bot.on("message", message => {
 
     }
 
-
     if (command === "sondage") { // Commande de sondage 
         var array = message.content; /// On donne a ''array'' le contenu du message
         var arrayY = array.split(' '); // On sépare le contenu du message, on en fait un tableau
         delete arrayY[0]; // On suprimme le premier argument (commande)
+        
         console.log(arrayY); // On log le tableau 
         console.log(arrayY.join(" ")); // On join tout les élements du tableau avec un espace
+        
         message.delete() // Message de l'utilisateur suprimmé 
             return message.channel.sendMessage(arrayY.join(" ")).then(function (message) { // On renvoi le message de l'utilisateur 
                 message.react("👍") // /// /// /// /// /// /// /// /////
@@ -113,9 +118,6 @@ bot.on("message", message => {
             
 
     }
-
-
-
 
     if (command === "choice") { // Commande qui effectue un choix aléatoirement entre deux propositions
         var messagetest = message.content; // On donne a "messagetest" le contenu du message
@@ -142,9 +144,11 @@ bot.on("message", message => {
         randphrase = random(1,8)
         
         console.log(randjok); // On log le nombre
+        
         var phrase = db.get('')
         var jok = db.get(`jokes[${randjok}].jokes_value`).toString().value(); // On va chercher une blague qui correspond a "randjok" dans le fichier
         var debut = database.get(`phrase[${randphrase}].phrase_value`).toString().value();
+        
         console.log(debut);
         console.log(jok); // On log la blague
 
