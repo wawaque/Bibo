@@ -172,4 +172,29 @@ bot.on("message", message => {
     message.channel.sendEmbed(info_embed);
     }
 
-});
+    if(command === 'kick')
+
+    if(!message.channel.permissionsFor(message.member).hasPermisson('KICK_MEMBERS')){
+        message.reply("Hop Hop Hop ! Tu n'as pas la permissions de kick :confused:")
+    } else {
+        var memberkick = message.mentions.users.firsts();
+
+        if(!memberkick) {
+            message.reply('Cette utilisateur ne peut pas être kick !');
+
+        } else {
+            if(!message.guild.member(memberkick).kickable) {
+                message.reply("Cette utilisateur est supérieur à toi, peut-être un jour cela s'inversera");
+
+            } else {
+                message.guild.member(memberkick).kick().then((member) => {
+                message.channel.send("THIS IS SPARTA !" + "\n" + member.displayName + "a bien été kick !");
+
+            }).catch(() => {
+                message.channel.send('Kick refusé !')
+            })
+        }
+    }
+    }
+    return;
+})
