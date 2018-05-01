@@ -34,7 +34,7 @@ bot.on("message", message => {
 
     if(message.author.bot) return;
 
-    if (command ==='help'){
+    if (command ==='help'){ // Embed Liste commandes fini
         var help_embed = new Discord.RichEmbed()
         .setColor("B50000")
         .setTitle("Help :")
@@ -49,7 +49,7 @@ bot.on("message", message => {
     message.author.sendEmbed(help_embed);
     }
 
-    if (command ==='game'){ 
+    if (command ==='game'){ // Embed liste jeux fini
         var game_embed = new Discord.RichEmbed()
         .setColor("B50000")
         .setTitle("Jeux :")
@@ -62,98 +62,116 @@ bot.on("message", message => {
     message.author.sendEmbed(game_embed);
     }
 
-    if (command === "dice") { // Commande de Dice
-        randnum  = random(1, 6); // On choisi un numéro random entre 1 et 6
+    if (command === "dice") { // Commande finie
+        randnum  = random(1, 6); 
 
-        if (randnum ==6) { // Si le numéro est 6
-            message.reply("6 ! C'est Gagné, Quelle chance ! :game_die:") // L'utilisateur à gagné
-            console.log(randnum) // On log le numéro
-        }
-        if (randnum ==5) { // Si le numéro est 5
-            message.reply("5 ! Tu y est presque ! Courage ! :game_die:") // L'utilisateur perd
+        if (randnum ==6) { 
+            message.reply("6 ! C'est Gagné, Quelle chance ! :game_die:") 
             console.log(randnum) 
         }
-        if (randnum ==4) {  // Si le numéro est 4
-            message.reply("4 ! Pas mal ! Tu peux mieux faire ! :game_die:") // L'utilisateur perd
+        if (randnum ==5) { 
+            message.reply("5 ! Tu y est presque ! Courage ! :game_die:") 
             console.log(randnum) 
         }
-        if (randnum ==3) {  // Si le numéro est 3
-            message.reply("3 ! La moitié de 6, à moitié Gagné ! :game_die:") // L'utilisateur perd
+        if (randnum ==4) {  
+            message.reply("4 ! Pas mal ! Tu peux mieux faire ! :game_die:")     
             console.log(randnum) 
         }
-        if (randnum ==2) {  // Si le numéro est 2
-            message.reply("2 ! Pff ! Pas terrible ! :game_die:") // L'utilisateur perd
+        if (randnum ==3) {  
+            message.reply("3 ! La moitié de 6, à moitié Gagné ! :game_die:") 
             console.log(randnum) 
         }
-        if (randnum ==1) {  // Si le numéro est 1
-            message.reply("1 ! C'est pas ton jour de chance toi ! :game_die:") // L'utilisateur perd
+        if (randnum ==2) {  
+            message.reply("2 ! Pff ! Pas terrible ! :game_die:") 
+            console.log(randnum) 
+        }
+        if (randnum ==1) {  
+            message.reply("1 ! C'est pas ton jour de chance toi ! :game_die:") 
             console.log(randnum) 
         }
     }
 
-    if (command === 'coinflip') { // Commande de coinflip
-        randnum = random(1,2); // On choisi un numéro random entre 1 et 2
+    if (command === 'coinflip') {
+        randnum = random(1,2);
         
-        if (randnum ==1) { // Si le numéro est 1
-            message.reply("Pile !") // Alors le résultat sera Pile
-        } else { // Sinon
-            message.reply("Face !") // Le resultat sera Face
+        if (randnum ==1) { 
+            message.reply("Pile !") 
+        } else { 
+            message.reply("Face !") 
         }
 
     }
 
-    if (command === "sondage") { // Commande de sondage 
-        var array = message.content; /// On donne a ''array'' le contenu du message
-        var arrayY = array.split(' '); // On sépare le contenu du message, on en fait un tableau
-        delete arrayY[0]; // On suprimme le premier argument (commande)
+    if (command === "sondage") { // Commande finie
+        var array = message.content; 
+        var arrayY = array.split(' '); 
+        delete arrayY[0]; 
         
-        console.log(arrayY); // On log le tableau 
-        console.log(arrayY.join(" ")); // On join tout les élements du tableau avec un espace
+        console.log(arrayY); 
+        console.log(arrayY.join(" ")); 
         
-        message.delete() // Message de l'utilisateur suprimmé 
-            return message.channel.sendMessage(arrayY.join(" ")).then(function (message) { // On renvoi le message de l'utilisateur 
-                message.react("👍") // /// /// /// /// /// /// /// /////
-                message.react("👎") // Et on réagis avec des émojis ///
+        message.delete() 
+            return message.channel.sendMessage(arrayY.join(" ")).then(function (message) {  
+                message.react("👍") 
+                message.react("👎") 
              })
             
 
     }
 
-    if (command === "choice") { // Commande qui effectue un choix aléatoirement entre deux propositions
-        var messagetest = message.content; // On donne a "messagetest" le contenu du message
-        var tableau = messagetest.split(' '); // On sépare le contenu du message, on en fait un tableau
-        var choix1 = tableau[1]; // On donne a choix1 le premier argument (on ne veux pas la commande)
-        var choix2 = tableau[3]; // On donne a choix2 le troisieme argument (on ne veux pas le or)
+    if (command === "choice") { // Commande finie ( seulement 2 propostions )
+        var messagetest = message.content; 
+        var tableau = messagetest.split(' '); 
+        var choix1 = tableau[1]; 
+        var choix2 = tableau[3]; 
 
-        if (choix1,choix2 === undefined) { // Si les arguments sont vides
+        if (choix1,choix2 === undefined) { 
             return message.reply('Tu as oublié des propositions :confused: \nLa commande a effectué est : **.choice proposition1 or proposition2**  :ok_hand:');
-        } // On envoi un message a l'utilisateur pour lui demandé de mettre des choix
-
-        randchoice = random(1,2); // On choisi un nombre aléatoire en 1 et 2
-
-        if (randchoice == 1) { // Si le nombre est égale a 1 
-            message.channel.sendMessage("Je choisis évidemment : " + choix1 + " :relieved:"); // Le bot choisira choix1
         } 
-        if (randchoice == 2) { // Si le nombre est égale a 2 
-            message.channel.sendMessage('Tu sais très bien que je choisis : ' + choix2 + " :wink:");  // Le bot choisira choix2
+
+        randchoice = random(1,2); 
+
+        if (randchoice == 1) { 
+            message.channel.sendMessage("Je choisis évidemment : " + choix1 + " :relieved:"); 
+        } 
+        if (randchoice == 2) { 
+            message.channel.sendMessage('Tu sais très bien que je choisis : ' + choix2 + " :wink:");
         }
     }
 
-    if (command === "joke") { // Commande de blague aléatoire
-        randjok = random(1,12) // On choisi un nombre aléatoire entre 1 et 12 (il y a 12 blagues)
+    if (command === "joke") { // Commande finie
+        randjok = random(1,12) 
         randphrase = random(1,8)
         
-        console.log(randjok); // On log le nombre
+        console.log(randjok); 
         
         var phrase = db.get('')
-        var jok = db.get(`jokes[${randjok}].jokes_value`).toString().value(); // On va chercher une blague qui correspond a "randjok" dans le fichier
+        var jok = db.get(`jokes[${randjok}].jokes_value`).toString().value();
         var debut = database.get(`phrase[${randphrase}].phrase_value`).toString().value();
         
         console.log(debut);
-        console.log(jok); // On log la blague
+        console.log(jok); 
 
-        message.channel.sendMessage(`${debut} ${jok}`); // On envoi la blague
-        return
+        message.channel.sendMessage(`${debut} ${jok}`); 
+    }
+
+
+    if (command === "avatar") {
+    return message.reply("Tiens, voici ta photo de profil ! " + message.author.avatarURL);
+
+    }
+
+    if (command === 'info') { // Version non fini bug retour à la ligne
+        var presend = message.author.presence.status
+        console.log(presend)
+        var info_embed = new Discord.RichEmbed()
+        .setColor("00D1C6")
+        .setTitle(":bust_in_silhouette: :" + message.author.username +  "#" + message.author.discriminator, " ")
+        .addField(":id: : " + message.author.id," ")
+        .addField("Crée le:  " + message.author.createdAt," ")
+        .addField("Status : " + message.author.presence.status," ")
+        .setFooter("By Astros#5597")
+    message.channel.sendEmbed(info_embed);
     }
 
 });
