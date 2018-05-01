@@ -97,11 +97,10 @@ bot.on("message", message => {
     }
 
 
-    if (command === "sondage") {
+    if (command === "sondage") { // Commande de sondage 
         var array = message.content;
         var arrayY = array.split(' ');
         delete arrayY[0];
-        //var lavirgule = arrayY.shift();
         console.log(arrayY);
         console.log(arrayY.toString());
         console.log(arrayY.join(" "));
@@ -117,7 +116,7 @@ bot.on("message", message => {
 
 
 
-    if (command === "choice") {
+    if (command === "choice") { // Commande qui effectue un choix aléatoirement entre deux propositions
         var messagetest = message.content;
         var tableau = messagetest.split(' ');
         var choix1 = tableau[1];
