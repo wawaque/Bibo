@@ -197,4 +197,28 @@ bot.on("message", message => {
     }
     }
 
+    if(command === 'ban')
+
+    if(!message.channel.permissionsFor(message.member).hasPermission('BAN_MEMBERS')){
+        message.reply("Hé Ho ! Tu n'as pas la permissions de ban :confused:")
+    } else {
+        var memberban = message.mentions.users.first();
+
+        if(!memberban) {
+            message.reply("Tu te fous de ma gueule, je sais très bien que cette utilisateur n'est pas sur le serveur :expressionless:");
+
+        } else {
+            if(!message.guild.member(memberban).banable) {
+                message.reply("Cette utilisateur est supérieur à toi, peut-être qu'un jour cela s'inversera :confused:");
+
+            } else {
+                message.guild.member(memberban).ban().then((member) => {
+                message.reply("DÉSINTÉGRATION !" + "\n" + member.displayName + " a bien été banni !");
+
+            }).catch(() => {
+                message.channel.send('Ban refusé !')
+            })
+        }
+    }
+    }
 })
