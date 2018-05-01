@@ -35,13 +35,13 @@ bot.on("message", message => {
     if (command ==='help'){ // Embed Liste commandes fini
         var help_embed = new Discord.RichEmbed()
         .setColor("B50000")
-        .setTitle("Help :")
-        .addField("Commandes diverses :", ".ping : Indique ton ping")
-        .addField(".choice", "Choix aléatoire entre deux propositions")
+        .setTitle(":robot: Help :")
+        .addField("**.ping**", "Ping : Indique ton ping")
+        .addField("**.choice** (proposition 1) or (proposition 2)", "Choix aléatoire entre deux propositions")
+        .addField("**.annonce** ( ton annonce )", "Annonce : Fait une annonce")
+        .addField("**.sondage** ( ton sondage )", "Sondage : Fait un sondage")
         .addField("Jeu :", "insérez jeu")
-        .addField("Jeu :", "insérez jeu")
-        .addField("Jeu :", "insérez jeu")
-        .addField("Jeu :", "insérez jeu")
+        .addField("Listes des commandes de modérations", ".help modo")
         .addField("Listes des jeux :", ".game")
         .setFooter("By Astros#5597")
     message.author.sendEmbed(help_embed);
@@ -50,10 +50,10 @@ bot.on("message", message => {
     if (command ==='game'){ // Embed liste jeux fini
         var game_embed = new Discord.RichEmbed()
         .setColor("B50000")
-        .setTitle("Jeux :")
+        .setTitle(":joystick: Jeux :")
         .addField(".dice :", " Dice : Jeu de dé")
         .addField(".coinflip", "Coinflip : Pile ou face")
-        .addField("Jeu :", "insérez jeu")
+        .addField(".joke", "Joke : Envoie une blague")
         .addField("Jeu :", "insérez jeu")
         .addField("Jeu :", "insérez jeu")
         .setFooter("By Astros#5597")
@@ -219,6 +219,25 @@ bot.on("message", message => {
                 message.channel.send('Ban refusé !')
             })
         }
+    }
+    }
+
+    if(command === 'annonce') {
+        
+        if(!message.channel.permissionsFor(message.member).hasPermission('KICK_MEMBERS')){
+            message.reply('Tu croyais quand même pas que tous le monde avait accès à cette commande. :smirk: ')
+
+        } else {
+        
+            var anon1 = message.content; 
+            var anontab = anon1.split(' '); 
+            delete anontab[0]; 
+        
+            console.log(anontab); 
+            console.log(anontab.join(" ")); 
+        
+            message.delete() 
+                return message.channel.sendMessage("**Annonce de ** "+ message.author + " : "+ anontab.join(" "))
     }
     }
 })
