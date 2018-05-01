@@ -240,4 +240,45 @@ bot.on("message", message => {
                 return message.channel.sendMessage("**Annonce de ** "+ message.author + " : "+ anontab.join(" "))
     }
     }
-})
+
+    if(command === 'mute') {
+
+        if(!message.channel.permissionsFor(message.member).hasPermission('MUTE_MEMBERS')){
+          return message.reply("Tu n'as pas la permission de mute. :confused:");
+
+    let lemecmute = message.mentions.users.first();
+
+        if(!lemecmute) 
+            return message.channel.send("Tu as oublié de mentionner un utilisateur :confused:");
+
+    let mutrole = message.guild.roles.find(r => r.name === "Mute");
+
+        if(!mutrole){
+                mutrole = message.guild.createRole({
+                name: "Mute",
+                color:"#000000",
+                permissions:[]
+                });
+
+        message.guild.channels.forEach( (channel, id) => {
+          channel.overwritePermissions(mutrole, {
+            SEND_MESSAGES: false,
+            ADD_REACTIONS: false
+          });
+
+        });
+
+        if(lemecmute.roles.has(mutrole.id)) 
+            return message.channel.send('Cet utilisateur est déjà mute !');
+
+        if(lemecmute === message.author) {
+            return message.channel.send('Tu ne peux pas te mute toi même :joy:')
+    }
+
+    lemecmute.addRole(mutrole);
+    message.channel.send("Et hop !" + lemecmute + " a bien été mute !");
+
+  }
+  }
+    
+}})
