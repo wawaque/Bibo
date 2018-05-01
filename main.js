@@ -174,21 +174,21 @@ bot.on("message", message => {
 
     if(command === 'kick')
 
-    if(!message.channel.permissionsFor(message.member).hasPermisson('KICK_MEMBERS')){
+    if(!message.channel.permissionsFor(message.member).hasPermission('KICK_MEMBERS')){
         message.reply("Hop Hop Hop ! Tu n'as pas la permissions de kick :confused:")
     } else {
-        var memberkick = message.mentions.users.firsts();
+        var memberkick = message.mentions.users.first();
 
         if(!memberkick) {
-            message.reply('Cette utilisateur ne peut pas être kick !');
+            message.reply("Tu te fous de ma gueule, je sais très bien que cette utilisateur n'est pas sur le serveur :expressionless:");
 
         } else {
             if(!message.guild.member(memberkick).kickable) {
-                message.reply("Cette utilisateur est supérieur à toi, peut-être un jour cela s'inversera");
+                message.reply("Cette utilisateur est supérieur à toi, peut-être qu'un jour cela s'inversera :confused:");
 
             } else {
                 message.guild.member(memberkick).kick().then((member) => {
-                message.channel.send("THIS IS SPARTA !" + "\n" + member.displayName + "a bien été kick !");
+                message.reply("THIS IS SPARTA !" + "\n" + member.displayName + " a bien été kick !");
 
             }).catch(() => {
                 message.channel.send('Kick refusé !')
@@ -196,5 +196,5 @@ bot.on("message", message => {
         }
     }
     }
-    return;
+
 })
