@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync('joke.json');
@@ -36,11 +37,12 @@ bot.on("message", message => {
         var help_embed = new Discord.RichEmbed()
         .setColor("B50000")
         .setTitle(":robot: Help :")
-        .addField("**.ping**", "Ping : Indique ton ping")
-        .addField("**.choice** (proposition 1) or (proposition 2)", "Choix aléatoire entre deux propositions")
-        .addField("**.annonce** ( ton annonce )", "Annonce : Fait une annonce")
-        .addField("**.sondage** ( ton sondage )", "Sondage : Fait un sondage")
-        .addField("Jeu :", "insérez jeu")
+        .addField("**.ping**", "Ping : Indique ton ping.")
+        .addField("**.choice** (proposition 1) or (proposition 2)","Choice : Choix aléatoire entre deux propositions.")
+        .addField("**.annonce** ( ton annonce )", "Annonce : Fait une annonce.")
+        .addField("**.sondage** ( ton sondage )", "Sondage : Fait un sondage.")
+        .addField("**.info**", "Info : Donne des informations sur ton profil.")
+        .addField("**.avatar**", "Avatar : Affiche ta photo de profil.")
         .addField("Listes des commandes de modérations", ".help modo")
         .addField("Listes des jeux :", ".game")
         .setFooter("By Astros#5597")
@@ -51,11 +53,24 @@ bot.on("message", message => {
         var game_embed = new Discord.RichEmbed()
         .setColor("B50000")
         .setTitle(":joystick: Jeux :")
-        .addField(".dice :", " Dice : Jeu de dé")
-        .addField(".coinflip", "Coinflip : Pile ou face")
-        .addField(".joke", "Joke : Envoie une blague")
+        .addField("**.dice** :", " Dice : Jeu de dé.")
+        .addField("**.coinflip**", "Coinflip : Pile ou face.")
+        .addField("**.joke**", "Joke : Envoie une blague.")
         .addField("Jeu :", "insérez jeu")
         .addField("Jeu :", "insérez jeu")
+        .setFooter("By Astros#5597")
+    message.author.sendEmbed(game_embed);
+    }
+
+    if (command ==='.help modo'){ // Embed liste jeux fini
+        var game_embed = new Discord.RichEmbed()
+        .setColor("B50000")
+        .setTitle(":joystick: Commandes Modérateur :")
+        .addField("**.annonce** ( ton annonce )", "Annonce : Envoie une annonce dans le channel où la commande a été effectuée.")
+        .addField("**.mute** ( utilisateur )", " Mute : L'utilisateur mentionné ne peut plus écrire.")
+        .addField("**.kick** ( utilisateur )", "Kick : L'utilisateur mentionné est exclu du serveur mais peut revenir grâce à une invitation.")
+        .addField("**.ban** ( utilisateur )", "Ban : L'utilisateur mentionné est exclu définitivement du serveur.")
+        .addField("commande", "insérez texte")
         .setFooter("By Astros#5597")
     message.author.sendEmbed(game_embed);
     }
@@ -139,7 +154,7 @@ bot.on("message", message => {
 
     if (command === "joke") { // Commande finie
         randjok = random(1,12) 
-        randphrase = random(1,8)
+        randphrase = random(1,12)
         
         console.log(randjok); 
         
@@ -161,13 +176,14 @@ bot.on("message", message => {
 
     if (command === 'info') { // Version non fini bug retour à la ligne
         var presend = message.author.presence.status
+        var creat = message.author.createdAt
         console.log(presend)
         var info_embed = new Discord.RichEmbed()
         .setColor("00D1C6")
         .setTitle(":bust_in_silhouette: :" + message.author.username +  "#" + message.author.discriminator, " ")
         .addField(":id: : " + message.author.id," ")
-        .addField("Crée le:  " + message.author.createdAt," ")
-        .addField("Status : " + message.author.presence.status," ")
+        .addField("Crée le:  " + creat," ")
+        .addField("Status : " + presend," ")
         .setFooter("By Astros#5597")
     message.channel.sendEmbed(info_embed);
     }
@@ -187,6 +203,7 @@ bot.on("message", message => {
                 message.reply("Cette utilisateur est supérieur à toi, peut-être qu'un jour cela s'inversera :confused:");
 
             } else {
+                message.delete()
                 message.guild.member(memberkick).kick().then((member) => {
                 message.reply("THIS IS SPARTA !" + "\n" + member.displayName + " a bien été kick !");
 
@@ -212,6 +229,7 @@ bot.on("message", message => {
                 message.reply("Cette utilisateur est supérieur à toi, peut-être qu'un jour cela s'inversera :confused:");
 
             } else {
+                message.delete()
                 message.guild.member(memberban).kick().then((member) => {
                 message.reply("DÉSINTÉGRATION !" + "\n" + member.displayName + " a bien été banni !");
 
@@ -225,7 +243,7 @@ bot.on("message", message => {
     if(command === 'annonce') {
         
         if(!message.channel.permissionsFor(message.member).hasPermission('KICK_MEMBERS')){
-            message.reply('Tu croyais quand même pas que tous le monde avait accès à cette commande. :smirk: ')
+            message.reply('Tu croyais quand même pas que tous le monde avait accès à cette commande. :smirk:\n Tu dois pouvoir kick.')
 
         } else {
         
