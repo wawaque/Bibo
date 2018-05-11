@@ -2,13 +2,20 @@ const Discord = require('discord.js');
 
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
+
 const adapter = new FileSync('joke.json');
 const phraseswag = new FileSync('debutphrase.json');
-const db = low(adapter);
+const xppd = new FileSync('xpdata.json');
+
+const xpdata = low(xppd);
+const jokdb = low(adapter);
 const database = low(phraseswag);
 
+
 var phrasenb = database.get('phrase').map('phrase_value').value();
-var jokesnb = db.get('jokes').map('jokes_values').value();
+var jokesnb = jokdb.get('jokes').map('jokes_values').value();
+
+xpdata.defaults({xp:[]}).write()
  
 var bot = new Discord.Client();
 var prefix = "."
@@ -158,8 +165,8 @@ bot.on("message", message => {
         
         console.log(randjok); 
         
-        var phrase = db.get('')
-        var jok = db.get(`jokes[${randjok}].jokes_value`).toString().value();
+        var phrase = jokdb.get('')
+        var jok = jokdb.get(`jokes[${randjok}].jokes_value`).toString().value();
         var debut = database.get(`phrase[${randphrase}].phrase_value`).toString().value();
         
         console.log(debut);
@@ -299,4 +306,18 @@ bot.on("message", message => {
   }
   }
     
+    var msgauthor = message.author.id;
+
+    if(!xpdata.get("xp").find({user: msgauthor}).value()) {
+        
+            xpdata.get("xp").push({user: msgauthor, xp: 1}).write();
+
+    }else {
+
+        var userxpdb = xpdata.get("xp").filter({user: msgauthor}).find("xp").value();
+        console.log(userxpdb);
+        
+        }
+  
+  
 }})
